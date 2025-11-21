@@ -84,14 +84,15 @@ document.addEventListener("DOMContentLoaded", function () {
   )[0];
 
   const headerName = document.querySelector(".header-name");
-  if(headerName){
-      const headerHeight = headerName.getBoundingClientRect().height;
-  const navbarHeight = navbar.getBoundingClientRect().height;
-  }
+  if(!headerName){
   const headerHeight = 0;
-  const navbarHeight = 0;
-  const totalHeight = navbarHeight + headerHeight;
+    const navbarHeight = 0;
+  }
+        const headerHeight = headerName.getBoundingClientRect().height;
+  const navbarHeight = navbar.getBoundingClientRect().height;
+    const totalHeight = navbarHeight + headerHeight;
   let totalHeightString = totalHeight + "px";
+
   // console.log(headerHeight, navbarHeight, totalHeight);
   // console.log(totalHeightString, typeof(totalHeightString));
 
