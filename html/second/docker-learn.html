@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docker-learn</title>
+  <!-- Highlight.js CSS theme -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <!-- Optional: Add some basic styling for the markdown content -->
+  <link rel="stylesheet" href="../../style/styles.css">
+   <link rel="icon" type="image/x-icon" href="../../favicon/favicon.ico">
+   </head>
+
+<body>
+  <div class="header-name">
+  <a href="../../index.html">
+    SUGAM
+    </a>
+  </div>
+<div class="navbar short-bottom" style="--border-width:80%; --border-color:blue;">
+   <a href="../../index.html">Home</a> 
+   <a href="../../about.html">About</a>
+   <a href="#">Blog</a>
+   <a href="../../contact.html">Contact</a>
+</div>
+<div class="hamburger" id="hamburger">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+<div class="navbar-links" id="navbarLinks">
+   <a href="../../index.html">Home</a> 
+   <a href="../../about.html">About</a>
+   <a href="#">Blog</a>
+   <a href="../../contact.html">Contact</a>
+</div>
+<div class="body-main-container">
+
+  <h1 id="complete-docker-guide-for-beginners" tabindex="-1">Complete Docker Guide for Beginners</h1>
+<h2 id="table-of-contents" tabindex="-1">Table of Contents</h2>
+<ol>
+<li><a href="#introduction-to-docker">Introduction to Docker</a></li>
+<li><a href="#setting-up-your-environment">Setting Up Your Environment</a></li>
+<li><a href="#docker-fundamentals">Docker Fundamentals</a></li>
+<li><a href="#basic-docker-commands">Basic Docker Commands</a></li>
+<li><a href="#creating-dockerfiles">Creating Dockerfiles</a></li>
+<li><a href="#docker-compose">Docker Compose</a></li>
+<li><a href="#mern-stack-with-docker">MERN Stack with Docker</a></li>
+<li><a href="#python-applications-with-docker">Python Applications with Docker</a></li>
+<li><a href="#hugo-static-sites-with-docker">Hugo Static Sites with Docker</a></li>
+<li><a href="#best-practices">Best Practices</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+</ol>
+<hr>
+<h2 id="introduction-to-docker" tabindex="-1">Introduction to Docker</h2>
+<p>Docker is a platform that allows you to package applications and their dependencies into containers that can run anywhere.</p>
+<h3 id="key-concepts" tabindex="-1">Key Concepts</h3>
+<ul>
+<li><strong>Image</strong>: A read-only template with instructions for creating a container. Think of it as a snapshot or blueprint.</li>
+<li><strong>Container</strong>: A runnable instance of an image. It’s isolated from other containers and the host machine.</li>
+<li><strong>Dockerfile</strong>: A text file containing commands to build an image.</li>
+<li><strong>Docker Hub</strong>: A registry where Docker images are stored and shared.</li>
+<li><strong>Volume</strong>: Persistent storage that containers can use to save data.</li>
+<li><strong>Network</strong>: Allows containers to communicate with each other.</li>
+<li><strong>Docker Compose</strong>: A tool for defining and running multi-container applications.</li>
+</ul>
+<h3 id="why-use-docker%3F" tabindex="-1">Why Use Docker?</h3>
+<ul>
+<li><strong>Consistency</strong>: “Works on my machine” becomes “works everywhere”</li>
+<li><strong>Isolation</strong>: Each container runs independently</li>
+<li><strong>Portability</strong>: Run anywhere Docker is installed</li>
+<li><strong>Efficiency</strong>: Lightweight compared to virtual machines</li>
+<li><strong>Scalability</strong>: Easy to scale applications up or down</li>
+</ul>
+<hr>
+<h2 id="setting-up-your-environment" tabindex="-1">Setting Up Your Environment</h2>
+<h3 id="prerequisites" tabindex="-1">Prerequisites</h3>
+<ol>
+<li><strong>Docker Desktop</strong> installed on your PC</li>
+<li><strong>VSCode</strong> installed</li>
+<li><strong>VSCode Extensions</strong>:
+<ul>
+<li>Docker (by Microsoft)</li>
+<li>Remote - Containers (optional but helpful)</li>
+<li>Docker Explorer (optional)</li>
+</ul>
+</li>
+</ol>
+<h3 id="verify-installation" tabindex="-1">Verify Installation</h3>
+<p>Open VSCode terminal (<code>Ctrl+`</code> or Terminal → New Terminal):</p>
+<pre><code class="language-bash"><span class="hljs-comment"># Check Docker version</span>
+docker --version
+
+<span class="hljs-comment"># Check Docker Compose version</span>
+docker-compose --version
+
+<span class="hljs-comment"># Verify Docker is running</span>
+docker ps
+
+<span class="hljs-comment"># Run hello-world to test</span>
+docker run hello-world
+</code></pre>
+<h3 id="configure-docker-in-vscode" tabindex="-1">Configure Docker in VSCode</h3>
+<ol>
+<li>Install Docker extension from the Extensions marketplace</li>
+<li>You’ll see a Docker icon in the Activity Bar (left sidebar)</li>
+<li>This shows:
+<ul>
+<li>Containers</li>
+<li>Images</li>
+<li>Registries</li>
+<li>Networks</li>
+<li>Volumes</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="docker-fundamentals" tabindex="-1">Docker Fundamentals</h2>
+<h3 id="container-lifecycle" tabindex="-1">Container Lifecycle</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># Pull an image from Docker Hub</span>
+docker pull nginx
+
+<span class="hljs-comment"># Run a container</span>
+docker run nginx
+
+<span class="hljs-comment"># Run in detached mode (background)</span>
+docker run -d nginx
+
+<span class="hljs-comment"># Run with port mapping</span>
+docker run -d -p 8080:80 nginx
+
+<span class="hljs-comment"># Run with a name</span>
+docker run -d --name my-nginx nginx
+
+<span class="hljs-comment"># Stop a container</span>
+docker stop my-nginx
+
+<span class="hljs-comment"># Start a stopped container</span>
+docker start my-nginx
+
+<span class="hljs-comment"># Restart a container</span>
+docker restart my-nginx
+
+<span class="hljs-comment"># Remove a container</span>
+docker <span class="hljs-built_in">rm</span> my-nginx
+
+<span class="hljs-comment"># Remove a running container (force)</span>
+docker <span class="hljs-built_in">rm</span> -f my-nginx
+</code></pre>
+<h3 id="working-with-images" tabindex="-1">Working with Images</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># List images</span>
+docker images
+
+<span class="hljs-comment"># Pull specific version</span>
+docker pull node:18-alpine
+
+<span class="hljs-comment"># Remove an image</span>
+docker rmi nginx
+
+<span class="hljs-comment"># Remove all unused images</span>
+docker image prune
+
+<span class="hljs-comment"># Build an image from Dockerfile</span>
+docker build -t myapp:1.0 .
+
+<span class="hljs-comment"># Tag an image</span>
+docker tag myapp:1.0 myapp:latest
+</code></pre>
+<hr>
+<h2 id="basic-docker-commands" tabindex="-1">Basic Docker Commands</h2>
+<h3 id="container-management" tabindex="-1">Container Management</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># List running containers</span>
+docker ps
+
+<span class="hljs-comment"># List all containers (including stopped)</span>
+docker ps -a
+
+<span class="hljs-comment"># View container logs</span>
+docker logs &lt;container-id&gt;
+
+<span class="hljs-comment"># Follow logs in real-time</span>
+docker logs -f &lt;container-id&gt;
+
+<span class="hljs-comment"># Execute command in running container</span>
+docker <span class="hljs-built_in">exec</span> -it &lt;container-id&gt; bash
+
+<span class="hljs-comment"># Copy files to/from container</span>
+docker <span class="hljs-built_in">cp</span> file.txt &lt;container-id&gt;:/path/
+docker <span class="hljs-built_in">cp</span> &lt;container-id&gt;:/path/file.txt ./
+
+<span class="hljs-comment"># View container resource usage</span>
+docker stats
+
+<span class="hljs-comment"># Inspect container details</span>
+docker inspect &lt;container-id&gt;
+</code></pre>
+<h3 id="system-commands" tabindex="-1">System Commands</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># View disk usage</span>
+docker system <span class="hljs-built_in">df</span>
+
+<span class="hljs-comment"># Clean up unused resources</span>
+docker system prune
+
+<span class="hljs-comment"># Remove all stopped containers</span>
+docker container prune
+
+<span class="hljs-comment"># Remove all unused images</span>
+docker image prune -a
+
+<span class="hljs-comment"># Remove all unused volumes</span>
+docker volume prune
+</code></pre>
+<h3 id="network-commands" tabindex="-1">Network Commands</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># List networks</span>
+docker network <span class="hljs-built_in">ls</span>
+
+<span class="hljs-comment"># Create a network</span>
+docker network create my-network
+
+<span class="hljs-comment"># Connect container to network</span>
+docker network connect my-network &lt;container-id&gt;
+
+<span class="hljs-comment"># Inspect network</span>
+docker network inspect my-network
+</code></pre>
+<h3 id="volume-commands" tabindex="-1">Volume Commands</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># List volumes</span>
+docker volume <span class="hljs-built_in">ls</span>
+
+<span class="hljs-comment"># Create a volume</span>
+docker volume create my-data
+
+<span class="hljs-comment"># Remove a volume</span>
+docker volume <span class="hljs-built_in">rm</span> my-data
+
+<span class="hljs-comment"># Inspect volume</span>
+docker volume inspect my-data
+</code></pre>
+<hr>
+<h2 id="creating-dockerfiles" tabindex="-1">Creating Dockerfiles</h2>
+<h3 id="dockerfile-basics" tabindex="-1">Dockerfile Basics</h3>
+<p>A Dockerfile contains instructions to build an image.</p>
+<p><strong>Common Instructions:</strong></p>
+<ul>
+<li><code>FROM</code>: Base image to build upon</li>
+<li><code>WORKDIR</code>: Set working directory</li>
+<li><code>COPY</code>: Copy files from host to container</li>
+<li><code>ADD</code>: Like COPY but can extract archives</li>
+<li><code>RUN</code>: Execute commands during build</li>
+<li><code>CMD</code>: Default command when container starts</li>
+<li><code>ENTRYPOINT</code>: Configure container as executable</li>
+<li><code>EXPOSE</code>: Document which port the container listens on</li>
+<li><code>ENV</code>: Set environment variables</li>
+<li><code>ARG</code>: Define build-time variables</li>
+<li><code>VOLUME</code>: Create mount point for volumes</li>
+<li><code>USER</code>: Set user for subsequent instructions</li>
+</ul>
+<h3 id="example%3A-simple-node.js-app" tabindex="-1">Example: Simple Node.js App</h3>
+<p><strong>Dockerfile:</strong></p>
+<pre><code class="language-dockerfile"><span class="hljs-comment"># Use official Node.js image</span>
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine
+
+<span class="hljs-comment"># Set working directory</span>
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+
+<span class="hljs-comment"># Copy package files</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> package*.json ./</span>
+
+<span class="hljs-comment"># Install dependencies</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> npm install</span>
+
+<span class="hljs-comment"># Copy application code</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span>
+
+<span class="hljs-comment"># Expose port</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3000</span>
+
+<span class="hljs-comment"># Start application</span>
+<span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;node&quot;</span>, <span class="hljs-string">&quot;server.js&quot;</span>]</span>
+</code></pre>
+<p><strong>Build and run:</strong></p>
+<pre><code class="language-bash">docker build -t my-node-app .
+docker run -p 3000:3000 my-node-app
+</code></pre>
+<h3 id="multi-stage-builds" tabindex="-1">Multi-stage Builds</h3>
+<p>Useful for reducing image size:</p>
+<pre><code class="language-dockerfile"><span class="hljs-comment"># Build stage</span>
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span> AS builder
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> package*.json ./</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> npm install</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> npm run build</span>
+
+<span class="hljs-comment"># Production stage</span>
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder /app/dist ./dist</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> package*.json ./</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> npm install --production</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3000</span>
+<span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;node&quot;</span>, <span class="hljs-string">&quot;dist/server.js&quot;</span>]</span>
+</code></pre>
+<hr>
+<h2 id="docker-compose" tabindex="-1">Docker Compose</h2>
+<p>Docker Compose allows you to define and run multi-container applications.</p>
+<h3 id="basic-docker-compose.yml" tabindex="-1">Basic docker-compose.yml</h3>
+<pre><code class="language-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.8&#x27;</span>
+
+<span class="hljs-attr">services:</span>
+  <span class="hljs-attr">web:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;3000:3000&quot;</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">.:/app</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">/app/node_modules</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">NODE_ENV=development</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">db</span>
+  
+  <span class="hljs-attr">db:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:14</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">postgres-data:/var/lib/postgresql/data</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_USER=user</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_PASSWORD=password</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_DB=mydb</span>
+
+<span class="hljs-attr">volumes:</span>
+  <span class="hljs-attr">postgres-data:</span>
+</code></pre>
+<h3 id="docker-compose-commands" tabindex="-1">Docker Compose Commands</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># Start all services</span>
+docker-compose up
+
+<span class="hljs-comment"># Start in detached mode</span>
+docker-compose up -d
+
+<span class="hljs-comment"># Build and start</span>
+docker-compose up --build
+
+<span class="hljs-comment"># Stop services</span>
+docker-compose down
+
+<span class="hljs-comment"># Stop and remove volumes</span>
+docker-compose down -v
+
+<span class="hljs-comment"># View logs</span>
+docker-compose logs
+
+<span class="hljs-comment"># Follow logs</span>
+docker-compose logs -f
+
+<span class="hljs-comment"># Execute command in service</span>
+docker-compose <span class="hljs-built_in">exec</span> web bash
+
+<span class="hljs-comment"># List running services</span>
+docker-compose ps
+
+<span class="hljs-comment"># Restart specific service</span>
+docker-compose restart web
+</code></pre>
+<hr>
+<h2 id="mern-stack-with-docker" tabindex="-1">MERN Stack with Docker</h2>
+<p>Complete setup for MongoDB, Express, React, and Node.js.</p>
+<h3 id="project-structure" tabindex="-1">Project Structure</h3>
+<pre><code>mern-app/
+├── client/                 # React frontend
+│   ├── Dockerfile
+│   ├── package.json
+│   └── src/
+├── server/                 # Express backend
+│   ├── Dockerfile
+│   ├── package.json
+│   └── src/
+└── docker-compose.yml
+</code></pre>
+<h3 id="backend-dockerfile-(server%2Fdockerfile)" tabindex="-1">Backend Dockerfile (server/Dockerfile)</h3>
+<pre><code class="language-dockerfile"><span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine
+
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+
+<span class="hljs-comment"># Copy package files</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> package*.json ./</span>
+
+<span class="hljs-comment"># Install dependencies</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> npm install</span>
+
+<span class="hljs-comment"># Copy source code</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span>
+
+<span class="hljs-comment"># Expose port</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">5000</span>
+
+<span class="hljs-comment"># Start server</span>
+<span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;npm&quot;</span>, <span class="hljs-string">&quot;run&quot;</span>, <span class="hljs-string">&quot;dev&quot;</span>]</span>
+</code></pre>
+<h3 id="frontend-dockerfile-(client%2Fdockerfile)" tabindex="-1">Frontend Dockerfile (client/Dockerfile)</h3>
+<pre><code class="language-dockerfile"><span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine
+
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+
+<span class="hljs-comment"># Copy package files</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> package*.json ./</span>
+
+<span class="hljs-comment"># Install dependencies</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> npm install</span>
+
+<span class="hljs-comment"># Copy source code</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span>
+
+<span class="hljs-comment"># Expose port</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">3000</span>
+
+<span class="hljs-comment"># Start development server</span>
+<span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;npm&quot;</span>, <span class="hljs-string">&quot;start&quot;</span>]</span>
+</code></pre>
+<h3 id="production-frontend-dockerfile" tabindex="-1">Production Frontend Dockerfile</h3>
+<pre><code class="language-dockerfile"><span class="hljs-comment"># Build stage</span>
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine AS builder
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> package*.json ./</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> npm install</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> npm run build</span>
+
+<span class="hljs-comment"># Production stage</span>
+<span class="hljs-keyword">FROM</span> nginx:alpine
+<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder /app/build /usr/share/nginx/html</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> nginx.conf /etc/nginx/conf.d/default.conf</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">80</span>
+<span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;nginx&quot;</span>, <span class="hljs-string">&quot;-g&quot;</span>, <span class="hljs-string">&quot;daemon off;&quot;</span>]</span>
+</code></pre>
+<h3 id="docker-compose.yml" tabindex="-1">docker-compose.yml</h3>
+<pre><code class="language-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.8&#x27;</span>
+
+<span class="hljs-attr">services:</span>
+  <span class="hljs-comment"># MongoDB Database</span>
+  <span class="hljs-attr">mongodb:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">mongo:6</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mern_mongodb</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;27017:27017&quot;</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MONGO_INITDB_ROOT_USERNAME=admin</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MONGO_INITDB_ROOT_PASSWORD=password</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MONGO_INITDB_DATABASE=merndb</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">mongo-data:/data/db</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">mern-network</span>
+
+  <span class="hljs-comment"># Express Backend</span>
+  <span class="hljs-attr">backend:</span>
+    <span class="hljs-attr">build:</span>
+      <span class="hljs-attr">context:</span> <span class="hljs-string">./server</span>
+      <span class="hljs-attr">dockerfile:</span> <span class="hljs-string">Dockerfile</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mern_backend</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;5000:5000&quot;</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">NODE_ENV=development</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">MONGO_URI=mongodb://admin:password@mongodb:27017/merndb?authSource=admin</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">PORT=5000</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./server:/app</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">/app/node_modules</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">mongodb</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">mern-network</span>
+
+  <span class="hljs-comment"># React Frontend</span>
+  <span class="hljs-attr">frontend:</span>
+    <span class="hljs-attr">build:</span>
+      <span class="hljs-attr">context:</span> <span class="hljs-string">./client</span>
+      <span class="hljs-attr">dockerfile:</span> <span class="hljs-string">Dockerfile</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">mern_frontend</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;3000:3000&quot;</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">REACT_APP_API_URL=http://localhost:5000/api</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">CHOKIDAR_USEPOLLING=true</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./client:/app</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">/app/node_modules</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">backend</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">mern-network</span>
+
+<span class="hljs-attr">networks:</span>
+  <span class="hljs-attr">mern-network:</span>
+    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span>
+
+<span class="hljs-attr">volumes:</span>
+  <span class="hljs-attr">mongo-data:</span>
+</code></pre>
+<h3 id="usage" tabindex="-1">Usage</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># Start all services</span>
+docker-compose up -d
+
+<span class="hljs-comment"># View logs</span>
+docker-compose logs -f
+
+<span class="hljs-comment"># Access MongoDB shell</span>
+docker-compose <span class="hljs-built_in">exec</span> mongodb mongosh -u admin -p password
+
+<span class="hljs-comment"># Stop all services</span>
+docker-compose down
+
+<span class="hljs-comment"># Remove volumes as well</span>
+docker-compose down -v
+</code></pre>
+<h3 id="backend-connection-example-(server%2Fsrc%2Fconfig%2Fdb.js)" tabindex="-1">Backend Connection Example (server/src/config/db.js)</h3>
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;mongoose&#x27;</span>);
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">connectDB</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">await</span> mongoose.<span class="hljs-title function_">connect</span>(process.<span class="hljs-property">env</span>.<span class="hljs-property">MONGO_URI</span>, {
+      <span class="hljs-attr">useNewUrlParser</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">useUnifiedTopology</span>: <span class="hljs-literal">true</span>,
+    });
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;MongoDB connected successfully&#x27;</span>);
+  } <span class="hljs-keyword">catch</span> (error) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;MongoDB connection error:&#x27;</span>, error);
+    process.<span class="hljs-title function_">exit</span>(<span class="hljs-number">1</span>);
+  }
+};
+
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = connectDB;
+</code></pre>
+<hr>
+<h2 id="python-applications-with-docker" tabindex="-1">Python Applications with Docker</h2>
+<h3 id="flask-application" tabindex="-1">Flask Application</h3>
+<p><strong>Project Structure:</strong></p>
+<pre><code>flask-app/
+├── app/
+│   ├── __init__.py
+│   ├── routes.py
+│   └── models.py
+├── requirements.txt
+├── app.py
+└── Dockerfile
+</code></pre>
+<p><strong>Dockerfile:</strong></p>
+<pre><code class="language-dockerfile"><span class="hljs-keyword">FROM</span> python:<span class="hljs-number">3.11</span>-slim
+
+<span class="hljs-comment"># Set working directory</span>
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+
+<span class="hljs-comment"># Install dependencies</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> requirements.txt .</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> pip install --no-cache-dir -r requirements.txt</span>
+
+<span class="hljs-comment"># Copy application</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span>
+
+<span class="hljs-comment"># Expose port</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">5000</span>
+
+<span class="hljs-comment"># Set environment variables</span>
+<span class="hljs-keyword">ENV</span> FLASK_APP=app.py
+<span class="hljs-keyword">ENV</span> FLASK_ENV=development
+
+<span class="hljs-comment"># Run application</span>
+<span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;flask&quot;</span>, <span class="hljs-string">&quot;run&quot;</span>, <span class="hljs-string">&quot;--host=0.0.0.0&quot;</span>]</span>
+</code></pre>
+<p><strong>requirements.txt:</strong></p>
+<pre><code>Flask==3.0.0
+Flask-SQLAlchemy==3.0.5
+Flask-Cors==4.0.0
+python-dotenv==1.0.0
+psycopg2-binary==2.9.7
+</code></pre>
+<p><strong>docker-compose.yml for Flask:</strong></p>
+<pre><code class="language-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.8&#x27;</span>
+
+<span class="hljs-attr">services:</span>
+  <span class="hljs-attr">web:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">flask_app</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;5000:5000&quot;</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">.:/app</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">FLASK_ENV=development</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DATABASE_URL=postgresql://user:password@db:5432/flaskdb</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">db</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">flask-network</span>
+
+  <span class="hljs-attr">db:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:14-alpine</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">flask_db</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_USER=user</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_PASSWORD=password</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_DB=flaskdb</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">postgres-data:/var/lib/postgresql/data</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;5432:5432&quot;</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">flask-network</span>
+
+<span class="hljs-attr">networks:</span>
+  <span class="hljs-attr">flask-network:</span>
+    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span>
+
+<span class="hljs-attr">volumes:</span>
+  <span class="hljs-attr">postgres-data:</span>
+</code></pre>
+<h3 id="django-application" tabindex="-1">Django Application</h3>
+<p><strong>Dockerfile:</strong></p>
+<pre><code class="language-dockerfile"><span class="hljs-keyword">FROM</span> python:<span class="hljs-number">3.11</span>-slim
+
+<span class="hljs-comment"># Set environment variables</span>
+<span class="hljs-keyword">ENV</span> PYTHONUNBUFFERED=<span class="hljs-number">1</span>
+<span class="hljs-keyword">ENV</span> PYTHONDONTWRITEBYTECODE=<span class="hljs-number">1</span>
+
+<span class="hljs-comment"># Set working directory</span>
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+
+<span class="hljs-comment"># Install system dependencies</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> apt-get update &amp;&amp; apt-get install -y \
+    postgresql-client \
+    &amp;&amp; <span class="hljs-built_in">rm</span> -rf /var/lib/apt/lists/*</span>
+
+<span class="hljs-comment"># Install Python dependencies</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> requirements.txt .</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> pip install --upgrade pip &amp;&amp; \
+    pip install --no-cache-dir -r requirements.txt</span>
+
+<span class="hljs-comment"># Copy project</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span>
+
+<span class="hljs-comment"># Collect static files</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> python manage.py collectstatic --noinput</span>
+
+<span class="hljs-comment"># Expose port</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">8000</span>
+
+<span class="hljs-comment"># Run migrations and start server</span>
+<span class="hljs-keyword">CMD</span><span class="language-bash"> python manage.py migrate &amp;&amp; \
+    python manage.py runserver 0.0.0.0:8000</span>
+</code></pre>
+<p><strong>docker-compose.yml for Django:</strong></p>
+<pre><code class="language-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.8&#x27;</span>
+
+<span class="hljs-attr">services:</span>
+  <span class="hljs-attr">web:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">django_app</span>
+    <span class="hljs-attr">command:</span> <span class="hljs-string">python</span> <span class="hljs-string">manage.py</span> <span class="hljs-string">runserver</span> <span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span><span class="hljs-string">:8000</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">.:/app</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;8000:8000&quot;</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DEBUG=1</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">SECRET_KEY=your-secret-key</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DATABASE_URL=postgres://user:password@db:5432/djangodb</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">redis</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">django-network</span>
+
+  <span class="hljs-attr">db:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:14-alpine</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">django_db</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">postgres-data:/var/lib/postgresql/data</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_DB=djangodb</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_USER=user</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_PASSWORD=password</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">django-network</span>
+
+  <span class="hljs-attr">redis:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">redis:7-alpine</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">django_redis</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;6379:6379&quot;</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">django-network</span>
+
+  <span class="hljs-attr">celery:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">django_celery</span>
+    <span class="hljs-attr">command:</span> <span class="hljs-string">celery</span> <span class="hljs-string">-A</span> <span class="hljs-string">myproject</span> <span class="hljs-string">worker</span> <span class="hljs-string">-l</span> <span class="hljs-string">info</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">.:/app</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">db</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">redis</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">django-network</span>
+
+<span class="hljs-attr">networks:</span>
+  <span class="hljs-attr">django-network:</span>
+    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span>
+
+<span class="hljs-attr">volumes:</span>
+  <span class="hljs-attr">postgres-data:</span>
+</code></pre>
+<h3 id="fastapi-application" tabindex="-1">FastAPI Application</h3>
+<p><strong>Dockerfile:</strong></p>
+<pre><code class="language-dockerfile"><span class="hljs-keyword">FROM</span> python:<span class="hljs-number">3.11</span>-slim
+
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /app</span>
+
+<span class="hljs-comment"># Install dependencies</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> requirements.txt .</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> pip install --no-cache-dir -r requirements.txt</span>
+
+<span class="hljs-comment"># Copy application</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span>
+
+<span class="hljs-comment"># Expose port</span>
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">8000</span>
+
+<span class="hljs-comment"># Run with uvicorn</span>
+<span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;uvicorn&quot;</span>, <span class="hljs-string">&quot;main:app&quot;</span>, <span class="hljs-string">&quot;--host&quot;</span>, <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-string">&quot;--port&quot;</span>, <span class="hljs-string">&quot;8000&quot;</span>, <span class="hljs-string">&quot;--reload&quot;</span>]</span>
+</code></pre>
+<p><strong>requirements.txt:</strong></p>
+<pre><code>fastapi==0.104.1
+uvicorn[standard]==0.24.0
+sqlalchemy==2.0.23
+pydantic==2.5.0
+python-multipart==0.0.6
+</code></pre>
+<p><strong>docker-compose.yml for FastAPI:</strong></p>
+<pre><code class="language-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.8&#x27;</span>
+
+<span class="hljs-attr">services:</span>
+  <span class="hljs-attr">api:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">fastapi_app</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;8000:8000&quot;</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">.:/app</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">DATABASE_URL=postgresql://user:password@db:5432/fastapidb</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">db</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">fastapi-network</span>
+
+  <span class="hljs-attr">db:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:14-alpine</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">fastapi_db</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_USER=user</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_PASSWORD=password</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">POSTGRES_DB=fastapidb</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">postgres-data:/var/lib/postgresql/data</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">fastapi-network</span>
+
+<span class="hljs-attr">networks:</span>
+  <span class="hljs-attr">fastapi-network:</span>
+    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span>
+
+<span class="hljs-attr">volumes:</span>
+  <span class="hljs-attr">postgres-data:</span>
+</code></pre>
+<hr>
+<h2 id="hugo-static-sites-with-docker" tabindex="-1">Hugo Static Sites with Docker</h2>
+<p>Hugo is a fast static site generator written in Go.</p>
+<h3 id="basic-hugo-dockerfile" tabindex="-1">Basic Hugo Dockerfile</h3>
+<p><strong>Dockerfile:</strong></p>
+<pre><code class="language-dockerfile"><span class="hljs-keyword">FROM</span> klakegg/hugo:<span class="hljs-number">0.111</span>.<span class="hljs-number">3</span>-ext-alpine AS builder
+
+<span class="hljs-keyword">WORKDIR</span><span class="language-bash"> /src</span>
+
+<span class="hljs-comment"># Copy Hugo site files</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span>
+
+<span class="hljs-comment"># Build the site</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> hugo --minify</span>
+
+<span class="hljs-comment"># Production stage with nginx</span>
+<span class="hljs-keyword">FROM</span> nginx:alpine
+
+<span class="hljs-comment"># Copy built site to nginx</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder /src/public /usr/share/nginx/html</span>
+
+<span class="hljs-comment"># Copy custom nginx config (optional)</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> nginx.conf /etc/nginx/conf.d/default.conf</span>
+
+<span class="hljs-keyword">EXPOSE</span> <span class="hljs-number">80</span>
+
+<span class="hljs-keyword">CMD</span><span class="language-bash"> [<span class="hljs-string">&quot;nginx&quot;</span>, <span class="hljs-string">&quot;-g&quot;</span>, <span class="hljs-string">&quot;daemon off;&quot;</span>]</span>
+</code></pre>
+<h3 id="development-setup" tabindex="-1">Development Setup</h3>
+<p><strong>docker-compose.yml:</strong></p>
+<pre><code class="language-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.8&#x27;</span>
+
+<span class="hljs-attr">services:</span>
+  <span class="hljs-attr">hugo:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">klakegg/hugo:0.111.3-ext-alpine</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">hugo_dev</span>
+    <span class="hljs-attr">command:</span> <span class="hljs-string">server</span> <span class="hljs-string">--bind</span> <span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span> <span class="hljs-string">--buildDrafts</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">.:/src</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;1313:1313&quot;</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">HUGO_ENV=development</span>
+</code></pre>
+<h3 id="production-setup" tabindex="-1">Production Setup</h3>
+<p><strong>docker-compose.prod.yml:</strong></p>
+<pre><code class="language-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.8&#x27;</span>
+
+<span class="hljs-attr">services:</span>
+  <span class="hljs-attr">hugo:</span>
+    <span class="hljs-attr">build:</span>
+      <span class="hljs-attr">context:</span> <span class="hljs-string">.</span>
+      <span class="hljs-attr">dockerfile:</span> <span class="hljs-string">Dockerfile</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">hugo_prod</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;80:80&quot;</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+</code></pre>
+<h3 id="custom-nginx.conf" tabindex="-1">Custom nginx.conf</h3>
+<pre><code class="language-nginx"><span class="hljs-section">server</span> {
+    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;
+    <span class="hljs-attribute">server_name</span> localhost;
+
+    <span class="hljs-attribute">root</span> /usr/share/nginx/html;
+    <span class="hljs-attribute">index</span> index.html;
+
+    <span class="hljs-comment"># Enable gzip compression</span>
+    <span class="hljs-attribute">gzip</span> <span class="hljs-literal">on</span>;
+    <span class="hljs-attribute">gzip_types</span> text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    <span class="hljs-section">location</span> / {
+        <span class="hljs-attribute">try_files</span> <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ =<span class="hljs-number">404</span>;
+    }
+
+    <span class="hljs-comment"># Cache static assets</span>
+    <span class="hljs-section">location</span> <span class="hljs-regexp">~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$</span> {
+        <span class="hljs-attribute">expires</span> <span class="hljs-number">1y</span>;
+        <span class="hljs-attribute">add_header</span> Cache-Control <span class="hljs-string">&quot;public, immutable&quot;</span>;
+    }
+
+    <span class="hljs-comment"># Security headers</span>
+    <span class="hljs-attribute">add_header</span> X-Frame-Options <span class="hljs-string">&quot;SAMEORIGIN&quot;</span> always;
+    <span class="hljs-attribute">add_header</span> X-Content-Type-Options <span class="hljs-string">&quot;nosniff&quot;</span> always;
+    <span class="hljs-attribute">add_header</span> X-XSS-Protection <span class="hljs-string">&quot;1; mode=block&quot;</span> always;
+}
+</code></pre>
+<h3 id="hugo-with-ci%2Fcd" tabindex="-1">Hugo with CI/CD</h3>
+<p><strong>Project Structure:</strong></p>
+<pre><code>hugo-site/
+├── archetypes/
+├── content/
+├── layouts/
+├── static/
+├── themes/
+├── config.toml
+├── Dockerfile
+├── docker-compose.yml
+└── .dockerignore
+</code></pre>
+<p><strong>.dockerignore:</strong></p>
+<pre><code>.git
+.gitignore
+README.md
+.dockerignore
+Dockerfile
+docker-compose.yml
+node_modules
+public
+resources
+</code></pre>
+<h3 id="usage-commands" tabindex="-1">Usage Commands</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># Development - start Hugo server</span>
+docker-compose up
+
+<span class="hljs-comment"># Access site at http://localhost:1313</span>
+
+<span class="hljs-comment"># Production build</span>
+docker-compose -f docker-compose.prod.yml up --build -d
+
+<span class="hljs-comment"># Create new content</span>
+docker-compose <span class="hljs-built_in">exec</span> hugo hugo new posts/my-post.md
+
+<span class="hljs-comment"># Stop services</span>
+docker-compose down
+</code></pre>
+<hr>
+<h2 id="best-practices" tabindex="-1">Best Practices</h2>
+<h3 id="dockerfile-best-practices" tabindex="-1">Dockerfile Best Practices</h3>
+<ol>
+<li>
+<p><strong>Use Official Base Images</strong></p>
+<pre><code class="language-dockerfile"><span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine  <span class="hljs-comment"># Official and small</span>
+</code></pre>
+</li>
+<li>
+<p><strong>Minimize Layers</strong></p>
+<pre><code class="language-dockerfile"><span class="hljs-comment"># Bad</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> apt-get update</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> apt-get install -y package1</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> apt-get install -y package2</span>
+
+<span class="hljs-comment"># Good</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> apt-get update &amp;&amp; apt-get install -y \
+    package1 \
+    package2 \
+    &amp;&amp; <span class="hljs-built_in">rm</span> -rf /var/lib/apt/lists/*</span>
+</code></pre>
+</li>
+<li>
+<p><strong>Order Instructions by Frequency of Change</strong></p>
+<pre><code class="language-dockerfile"><span class="hljs-comment"># Dependencies change less frequently</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> package*.json ./</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> npm install</span>
+
+<span class="hljs-comment"># Source code changes more frequently</span>
+<span class="hljs-keyword">COPY</span><span class="language-bash"> . .</span>
+</code></pre>
+</li>
+<li>
+<p><strong>Use .dockerignore</strong></p>
+<pre><code>node_modules
+npm-debug.log
+.git
+.env
+.DS_Store
+</code></pre>
+</li>
+<li>
+<p><strong>Don’t Run as Root</strong></p>
+<pre><code class="language-dockerfile"><span class="hljs-keyword">RUN</span><span class="language-bash"> addgroup -g 1001 -S nodejs</span>
+<span class="hljs-keyword">RUN</span><span class="language-bash"> adduser -S nodejs -u 1001</span>
+<span class="hljs-keyword">USER</span> nodejs
+</code></pre>
+</li>
+<li>
+<p><strong>Use Multi-stage Builds</strong></p>
+<pre><code class="language-dockerfile"><span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span> AS builder
+<span class="hljs-comment"># Build steps</span>
+
+<span class="hljs-keyword">FROM</span> node:<span class="hljs-number">18</span>-alpine
+<span class="hljs-keyword">COPY</span><span class="language-bash"> --from=builder /app/dist ./dist</span>
+</code></pre>
+</li>
+</ol>
+<h3 id="docker-compose-best-practices" tabindex="-1">Docker Compose Best Practices</h3>
+<ol>
+<li>
+<p><strong>Use Environment Variables</strong></p>
+<pre><code class="language-yaml"><span class="hljs-attr">environment:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">DATABASE_URL=${DATABASE_URL}</span>
+</code></pre>
+</li>
+<li>
+<p><strong>Use Named Volumes</strong></p>
+<pre><code class="language-yaml"><span class="hljs-attr">volumes:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">postgres-data:/var/lib/postgresql/data</span>
+</code></pre>
+</li>
+<li>
+<p><strong>Set Restart Policies</strong></p>
+<pre><code class="language-yaml"><span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+</code></pre>
+</li>
+<li>
+<p><strong>Use Health Checks</strong></p>
+<pre><code class="language-yaml"><span class="hljs-attr">healthcheck:</span>
+  <span class="hljs-attr">test:</span> [<span class="hljs-string">&quot;CMD&quot;</span>, <span class="hljs-string">&quot;curl&quot;</span>, <span class="hljs-string">&quot;-f&quot;</span>, <span class="hljs-string">&quot;http://localhost:3000&quot;</span>]
+  <span class="hljs-attr">interval:</span> <span class="hljs-string">30s</span>
+  <span class="hljs-attr">timeout:</span> <span class="hljs-string">10s</span>
+  <span class="hljs-attr">retries:</span> <span class="hljs-number">3</span>
+</code></pre>
+</li>
+</ol>
+<h3 id="security-best-practices" tabindex="-1">Security Best Practices</h3>
+<ol>
+<li>
+<p><strong>Never Store Secrets in Images</strong></p>
+<ul>
+<li>Use environment variables</li>
+<li>Use Docker secrets</li>
+<li>Use .env files (not committed to git)</li>
+</ul>
+</li>
+<li>
+<p><strong>Scan Images for Vulnerabilities</strong></p>
+<pre><code class="language-bash">docker scan my-image:latest
+</code></pre>
+</li>
+<li>
+<p><strong>Use Minimal Base Images</strong></p>
+<ul>
+<li>Alpine-based images when possible</li>
+<li>Distroless images for production</li>
+</ul>
+</li>
+<li>
+<p><strong>Keep Images Updated</strong></p>
+<pre><code class="language-bash">docker pull node:18-alpine
+docker-compose pull
+</code></pre>
+</li>
+</ol>
+<h3 id="performance-best-practices" tabindex="-1">Performance Best Practices</h3>
+<ol>
+<li>
+<p><strong>Use Build Cache Effectively</strong></p>
+<ul>
+<li>Order Dockerfile instructions strategically</li>
+<li>Use <code>--no-cache</code> when needed</li>
+</ul>
+</li>
+<li>
+<p><strong>Minimize Image Size</strong></p>
+<ul>
+<li>Remove unnecessary files</li>
+<li>Use multi-stage builds</li>
+<li>Combine RUN commands</li>
+</ul>
+</li>
+<li>
+<p><strong>Use Volumes for Development</strong></p>
+<pre><code class="language-yaml"><span class="hljs-attr">volumes:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">.:/app</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">/app/node_modules</span>  <span class="hljs-comment"># Prevent overwriting</span>
+</code></pre>
+</li>
+</ol>
+<hr>
+<h2 id="troubleshooting" tabindex="-1">Troubleshooting</h2>
+<h3 id="common-issues-and-solutions" tabindex="-1">Common Issues and Solutions</h3>
+<p><strong>1. Port Already in Use</strong></p>
+<pre><code class="language-bash"><span class="hljs-comment"># Error: Bind for 0.0.0.0:3000 failed: port is already allocated</span>
+
+<span class="hljs-comment"># Solution: Find and stop the process using the port</span>
+<span class="hljs-comment"># Windows</span>
+netstat -ano | findstr :3000
+taskkill /PID &lt;PID&gt; /F
+
+<span class="hljs-comment"># Linux/Mac</span>
+lsof -i :3000
+<span class="hljs-built_in">kill</span> -9 &lt;PID&gt;
+
+<span class="hljs-comment"># Or use a different port</span>
+docker run -p 3001:3000 my-app
+</code></pre>
+<p><strong>2. Container Exits Immediately</strong></p>
+<pre><code class="language-bash"><span class="hljs-comment"># Check logs</span>
+docker logs &lt;container-id&gt;
+
+<span class="hljs-comment"># Common causes:</span>
+<span class="hljs-comment"># - Application crashes</span>
+<span class="hljs-comment"># - Missing environment variables</span>
+<span class="hljs-comment"># - Syntax errors in code</span>
+</code></pre>
+<p><strong>3. Cannot Connect to Database</strong></p>
+<pre><code class="language-bash"><span class="hljs-comment"># Use service name, not localhost</span>
+<span class="hljs-comment"># Bad: mongodb://localhost:27017</span>
+<span class="hljs-comment"># Good: mongodb://mongodb:27017</span>
+
+<span class="hljs-comment"># Ensure containers are on same network</span>
+docker network inspect my-network
+</code></pre>
+<p><strong>4. Permission Denied</strong></p>
+<pre><code class="language-bash"><span class="hljs-comment"># Linux: Add user to docker group</span>
+<span class="hljs-built_in">sudo</span> usermod -aG docker <span class="hljs-variable">$USER</span>
+newgrp docker
+
+<span class="hljs-comment"># Or run with sudo</span>
+<span class="hljs-built_in">sudo</span> docker ps
+</code></pre>
+<p><strong>5. Slow Build Times</strong></p>
+<pre><code class="language-bash"><span class="hljs-comment"># Use .dockerignore</span>
+<span class="hljs-comment"># Use layer caching</span>
+<span class="hljs-comment"># Build specific service</span>
+docker-compose build web
+
+<span class="hljs-comment"># Use BuildKit</span>
+DOCKER_BUILDKIT=1 docker build .
+</code></pre>
+<p><strong>6. Out of Disk Space</strong></p>
+<pre><code class="language-bash"><span class="hljs-comment"># Check disk usage</span>
+docker system <span class="hljs-built_in">df</span>
+
+<span class="hljs-comment"># Clean up</span>
+docker system prune -a
+docker volume prune
+</code></pre>
+<p><strong>7. Image Not Found</strong></p>
+<pre><code class="language-bash"><span class="hljs-comment"># Pull the image first</span>
+docker pull node:18-alpine
+
+<span class="hljs-comment"># Check image name spelling</span>
+docker images
+</code></pre>
+<p><strong>8. Container Can’t Access Internet</strong></p>
+<pre><code class="language-bash"><span class="hljs-comment"># Restart Docker</span>
+<span class="hljs-comment"># Check DNS settings in Docker Desktop</span>
+<span class="hljs-comment"># Try different DNS servers</span>
+docker run --dns 8.8.8.8 my-app
+</code></pre>
+<h3 id="debugging-tools" tabindex="-1">Debugging Tools</h3>
+<p><strong>Enter Running Container</strong></p>
+<pre><code class="language-bash">docker <span class="hljs-built_in">exec</span> -it &lt;container-id&gt; sh
+<span class="hljs-comment"># or</span>
+docker <span class="hljs-built_in">exec</span> -it &lt;container-id&gt; bash
+</code></pre>
+<p><strong>View Container Processes</strong></p>
+<pre><code class="language-bash">docker top &lt;container-id&gt;
+</code></pre>
+<p><strong>Inspect Container</strong></p>
+<pre><code class="language-bash">docker inspect &lt;container-id&gt;
+</code></pre>
+<p><strong>View Container Changes</strong></p>
+<pre><code class="language-bash">docker diff &lt;container-id&gt;
+</code></pre>
+<p><strong>Export Container</strong></p>
+<pre><code class="language-bash">docker <span class="hljs-built_in">export</span> &lt;container-id&gt; &gt; container.tar
+</code></pre>
+<hr>
+<h2 id="additional-resources" tabindex="-1">Additional Resources</h2>
+<h3 id="official-documentation" tabindex="-1">Official Documentation</h3>
+<ul>
+<li><a href="https://docs.docker.com/">Docker Documentation</a></li>
+<li><a href="https://docs.docker.com/compose/">Docker Compose Documentation</a></li>
+<li><a href="https://hub.docker.com/">Docker Hub</a></li>
+</ul>
+<h3 id="useful-commands-cheatsheet" tabindex="-1">Useful Commands Cheatsheet</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># Build</span>
+docker build -t name:tag .
+docker-compose build
+
+<span class="hljs-comment"># Run</span>
+docker run -d -p 8080:80 --name web nginx
+docker-compose up -d
+
+<span class="hljs-comment"># Stop</span>
+docker stop &lt;container&gt;
+docker-compose down
+
+<span class="hljs-comment"># Logs</span>
+docker logs -f &lt;container&gt;
+docker-compose logs -f service
+
+<span class="hljs-comment"># Execute</span>
+docker <span class="hljs-built_in">exec</span> -it &lt;container&gt; bash
+docker-compose <span class="hljs-built_in">exec</span> service bash
+
+<span class="hljs-comment"># Clean Up</span>
+docker system prune -a
+docker volume prune
+docker network prune
+
+<span class="hljs-comment"># Info</span>
+docker ps -a
+docker images
+docker volume <span class="hljs-built_in">ls</span>
+docker network <span class="hljs-built_in">ls</span>
+</code></pre>
+<h3 id="next-steps" tabindex="-1">Next Steps</h3>
+<ol>
+<li>Practice with simple projects</li>
+<li>Learn about Docker networks in depth</li>
+<li>Explore Docker Swarm or Kubernetes for orchestration</li>
+<li>Learn about CI/CD with Docker</li>
+<li>Study security best practices</li>
+<li>Optimize your Dockerfiles for production</li>
+</ol>
+<hr>
+<p><strong>Happy Dockerizing! 🐳</strong></p>
+
+ </div>
+   <div class="footer individual-page-footer short-top" style="--border-width:80%; --border-color:red;">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Support</a>
+    <button class="toggle-btn" onclick="handleDarkModeToggle()">
+      <span class="sun">☀️</span>
+      <span class="moon">🌙</span>
+    </button>
+  </div>
+</body>
+<script src="../../js/index.js"></script>
+</html>
