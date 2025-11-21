@@ -440,7 +440,7 @@ body:not(.dark) .moon { display: none; }
 .footer {
   background-color: var(--bg-secondary);
   color: var(--text-secondary);
-  height: var(--navbar-height);
+  height: calc(1.75*var(--navbar-height));
   border-top: 1px solid var(--border);
   margin-bottom: 0;
   display: flex;
@@ -469,6 +469,32 @@ body:not(.dark) .moon { display: none; }
   position: absolute;
   right: 20px;
   bottom: 20px;
+}
+
+@media (max-width: 767px) {
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0.5rem;
+  }
+
+  .footer a {
+    /* padding: 0.5rem 0; */
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+    padding: 0;
+  }
+
+  .footer a:last-of-type {
+    border-bottom: none;
+  }
+
+  .footer .toggle-btn {
+    margin-top: 0.5rem;
+  }
 }
 
 @media (min-width: 1426px) {
@@ -625,6 +651,7 @@ body:not(.dark) .moon { display: none; }
 
   .navbar-links.open {
     display: flex;
+        z-index: 10000;
   }
 
   /* Hamburger animation */

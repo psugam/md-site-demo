@@ -3,43 +3,552 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Markdown Site</title>
+  <title>SUGAM</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
   <link rel="stylesheet" href="style/styles.css">
   <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
   <style>
-    body{
-      border:none;
+    * { box-sizing: border-box; }
+    
+    .home-wrapper {
+      min-height: 100vh;
+      background: var(--bg-primary);
     }
-    h1, h2, h3, h4, h5, h6{
-      text-decoration:none;
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      padding: 80px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
     }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, var(--accent-light) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, var(--accent-light) 0%, transparent 40%);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.85em;
+      font-weight: 600;
+      border-radius: 50px;
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      color: var(--heading);
+      margin: 0 0 16px 0;
+      line-height: 1.1;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-description {
+      font-size: 1.25em;
+      color: var(--text-secondary);
+      margin: 0 0 32px 0;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-top: 40px;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2.5em;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.9em;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Main Content */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: var(--heading);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-input {
+      padding: 10px 16px 10px 42px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-size: 0.95em;
+      width: 250px;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    /* Pages Grid */
+    .pages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .page-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .page-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 8px 30px var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .page-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .page-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .page-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 1.2em;
+    }
+
+    .page-arrow {
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .page-card:hover .page-arrow {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .page-title {
+      font-size: 1.15em;
+      font-weight: 600;
+      color: var(--heading);
+      margin: 0 0 8px 0;
+    }
+
+    .page-category {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+      font-size: 0.8em;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .page-description {
+      color: var(--text-secondary);
+      font-size: 0.95em;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Category Sections */
+    .category-section {
+      margin-bottom: 48px;
+    }
+
+    .category-title {
+      font-size: 1.1em;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin: 0 0 20px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Footer */
+    .home-footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 20px;
+      text-align: center;
+      background: var(--bg-secondary);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-info {
+      color: var(--text-muted);
+      font-size: 0.9em;
+    }
+
+    .footer-info span {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .toggle-btn {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toggle-btn:hover {
+      border-color: var(--accent);
+    }
+
+    body.light .moon { display: none; }
+    body.dark .sun { display: none; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero { padding: 60px 20px; }
+      .hero-stats { gap: 32px; }
+      .stat-value { font-size: 2em; }
+      .section-header { flex-direction: column; gap: 16px; align-items: flex-start; }
+      .search-input { width: 100%; }
+      .pages-grid { grid-template-columns: 1fr; }
+      .footer-content { flex-direction: column; text-align: center; }
+    }
+    .footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+/* Update responsive styles */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .footer-links {
+    justify-content: center;
+  }
+}
   </style>
 </head>
 <body>
-  <div class="home-container">
-    <header class="home-header">
-      <h1 class="home-title"> SUGAM</h1>
-      <p class="home-subtitle">Convert markdown to static site</p>
-    </header>
-   
-    <div class="home-toc">
-      <div class="home-toc-header">
-        <h2 class="home-toc-title">Pages</h2>
-      </div>
-      <ul class="home-toc-list">
-        <li class="home-toc-item"><a href="html/docker-learn.html" class="home-toc-link">Docker-learn</a></li><li class="home-toc-item"><a href="html/john.html" class="home-toc-link">John</a></li><li class="home-toc-item"><a href="html/poem.html" class="home-toc-link">Poem</a></li><li class="home-toc-item"><a href="html/salamis.html" class="home-toc-link">Salamis</a></li><li class="home-toc-item"><strong style="padding: 18px 30px; display: block; color: #2d3748;">Second</strong><ul class="home-toc-list home-toc-nested"><li class="home-toc-item"><a href="html/second/docker-learn.html" class="home-toc-link">Docker-learn</a></li><li class="home-toc-item"><a href="html/second/poem.html" class="home-toc-link">Poem</a></li></ul></li><li class="home-toc-item"><strong style="padding: 18px 30px; display: block; color: #2d3748;">Subfolder</strong><ul class="home-toc-list home-toc-nested"><li class="home-toc-item"><a href="html/subfolder/johnny.html" class="home-toc-link">Johnny</a></li></ul></li>
-      </ul>
-    </div>
-   
-    <footer class="home-footer">
-      <p>Generated on 11/21/2025 • Total documents: 7</p>
-      <button class="toggle-btn" onclick="handleDarkModeToggle()">
-        <span class="sun">☀️</span>
-        <span class="moon">🌙</span>
-      </button>
-    </footer>
+    <div class="header-name">
+  <a href ="index.html">
+    SUGAM
+    </a>
   </div>
+    <div class="navbar short-bottom" style="--border-width:80%; --border-color:blue;">
+   <a href="index.html">Home</a> 
+   <a href ="about.html">About</a>
+   <a href="#">Blog</a>
+   <a href="contact.html">Contact</a>
+</div>
+
+
+<div class="hamburger" id="hamburger">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+<div class="navbar-links" id="navbarLinks">
+   <a href="index.html">Home</a> 
+   <a href ="about.html">About</a>
+   <a href="#">Blog</a>
+   <a href="contact.html">Contact</a>
+</div>
+
+  <div class="home-wrapper">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <span class="hero-badge">📚 Documentation</span>
+        <h1 class="hero-title">Welcome to <span>SUGAM</span></h1>
+        <p class="hero-description">Your knowledge base converted from Markdown to a beautiful, searchable static site.</p>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-value">7</div>
+            <div class="stat-label">Documents</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">2</div>
+            <div class="stat-label">Categories</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">∞</div>
+            <div class="stat-label">Possibilities</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="section-header">
+        <h2 class="section-title">All Pages</h2>
+        <div class="search-box">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input type="text" class="search-input" placeholder="Search pages..." id="searchInput">
+        </div>
+      </div>
+
+      <div class="pages-container">
+        <section class="category-section"><h3 class="category-title">General</h3><div class="pages-grid">
+        <a href="html/docker-learn.html" class="page-card">
+          <div class="page-card-header">
+            <div class="page-icon">📄</div>
+            <svg class="page-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+          <span class="page-category">General</span>
+          <h4 class="page-title">Docker-learn</h4>
+          <p class="page-description">Documentation for docker learn</p>
+        </a>
+        <a href="html/john.html" class="page-card">
+          <div class="page-card-header">
+            <div class="page-icon">📄</div>
+            <svg class="page-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+          <span class="page-category">General</span>
+          <h4 class="page-title">John</h4>
+          <p class="page-description">Documentation for john</p>
+        </a>
+        <a href="html/poem.html" class="page-card">
+          <div class="page-card-header">
+            <div class="page-icon">📄</div>
+            <svg class="page-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+          <span class="page-category">General</span>
+          <h4 class="page-title">Poem</h4>
+          <p class="page-description">Documentation for poem</p>
+        </a>
+        <a href="html/salamis.html" class="page-card">
+          <div class="page-card-header">
+            <div class="page-icon">📄</div>
+            <svg class="page-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+          <span class="page-category">General</span>
+          <h4 class="page-title">Salamis</h4>
+          <p class="page-description">Documentation for salamis</p>
+        </a></div></section><section class="category-section"><h3 class="category-title">Second</h3><div class="pages-grid">
+        <a href="html/second/docker-learn.html" class="page-card">
+          <div class="page-card-header">
+            <div class="page-icon">📄</div>
+            <svg class="page-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+          <span class="page-category">Second</span>
+          <h4 class="page-title">Docker-learn</h4>
+          <p class="page-description">Documentation for docker learn</p>
+        </a>
+        <a href="html/second/poem.html" class="page-card">
+          <div class="page-card-header">
+            <div class="page-icon">📄</div>
+            <svg class="page-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+          <span class="page-category">Second</span>
+          <h4 class="page-title">Poem</h4>
+          <p class="page-description">Documentation for poem</p>
+        </a></div></section><section class="category-section"><h3 class="category-title">Subfolder</h3><div class="pages-grid">
+        <a href="html/subfolder/johnny.html" class="page-card">
+          <div class="page-card-header">
+            <div class="page-icon">📄</div>
+            <svg class="page-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+          <span class="page-category">Subfolder</span>
+          <h4 class="page-title">Johnny</h4>
+          <p class="page-description">Documentation for johnny</p>
+        </a></div></section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+
+<footer class="home-footer">
+  <div class="footer-content">
+    <div class="footer-info">
+      Generated on <span>11/21/2025</span> • <span>7</span> documents
+    </div>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Support</a>
+    </div>
+    <button class="toggle-btn" onclick="handleDarkModeToggle()">
+      <span class="sun">☀️</span>
+      <span class="moon">🌙</span>
+    </button>
+  </div>
+</footer>
+  </div>
+
+ 
+  <script>
+    // Simple search functionality
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase();
+      const cards = document.querySelectorAll('.page-card');
+      const categories = document.querySelectorAll('.category-section');
+      
+      cards.forEach(card => {
+        const title = card.querySelector('.page-title').textContent.toLowerCase();
+        card.style.display = title.includes(query) ? 'block' : 'none';
+      });
+
+      // Hide empty categories
+      categories.forEach(cat => {
+        const visibleCards = cat.querySelectorAll('.page-card[style="display: block"], .page-card:not([style])');
+        const hiddenCards = cat.querySelectorAll('.page-card[style="display: none"]');
+        cat.style.display = hiddenCards.length === cat.querySelectorAll('.page-card').length ? 'none' : 'block';
+      });
+    });
+  </script>
   <script src="js/index.js"></script>
 </body>
 </html>
